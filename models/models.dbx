@@ -1,0 +1,28 @@
+model user (
+	key name
+	field name text
+	field timezone int
+
+	field snacks int (updatable, autoinsert)
+)
+
+create user ( noreturn )
+read one ( select user, where user.name = ? )
+update user ( noreturn, where user.name = ? )
+
+model mission (
+	key id
+	field id serial64
+
+	field user user.name cascade
+	field description text
+	field seconds int // number of seconds into a day
+	field snacks int
+	field last_complete timestamp (nullable, updatable)
+)
+
+create mission ( noreturn )
+read all ( select mission, where mission.user = ? )
+read one ( select mission, where mission.id = ? )
+update mission ( noreturn, where mission.id = ? )
+delete mission ( where mission.id = ? )
